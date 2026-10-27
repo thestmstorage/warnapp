@@ -21,16 +21,55 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3
 
-      - name: Auto-generate Gradle Wrapper if missing
+      - name: Auto-generate Gradle Wrapper & google-services.json
         run: |
           PROJECT_DIR=$(dirname $(find . -maxdepth 3 -name "settings.gradle.kts" | head -n 1))
-          echo "Gefundener Projekt-Ordner: $PROJECT_DIR"
+          echo "Projekt-Verzeichnis: $PROJECT_DIR"
           cd "$PROJECT_DIR"
+
+          # 1. Wrapper generieren falls fehlend
           if [ ! -f "gradlew" ]; then
-            echo "Erzeuge fehlenden Gradle Wrapper..."
+            echo "Generiere gradlew..."
             gradle wrapper --gradle-version 8.9
           fi
           chmod +x gradlew
+
+          # 2. google-services.json automatisch erstellen
+          mkdir -p app
+          if [ ! -f "app/google-services.json" ]; then
+            echo "Erstelle app/google-services.json für genz-kommt..."
+            cat << 'EOF' > app/google-services.json
+{
+  "project_info": {
+    "project_number": "935189919193",
+    "project_id": "genz-kommt",
+    "storage_bucket": "genz-kommt.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:935189919193:android:de_warnapp_client",
+        "android_client_info": {
+          "package_name": "de.warnapp.client"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCYlAFUiOJnBQwYEvDdY15u8kF0TigJXac"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
+EOF
+          fi
 
       - name: Build APK with Gradle
         run: |
