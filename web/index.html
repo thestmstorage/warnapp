@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>WarnApp – Adminpanel</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <section id="login" class="center" hidden>
+    <form id="loginForm" class="panel narrow" autocomplete="on">
+      <h1>WarnApp Adminpanel</h1>
+      <p class="muted">Nur für autorisierte Administratoren.</p>
+      <label>E-Mail<input id="email" type="email" required autocomplete="username"></label>
+      <label>Passwort<input id="password" type="password" required autocomplete="current-password"></label>
+      <button class="btn primary" type="submit">Anmelden</button>
+      <p id="loginError" class="error" role="alert"></p>
+    </form>
+  </section>
+
+  <main id="dash" hidden>
+    <header class="top">
+      <h1>WarnApp</h1>
+      <div class="status-row">
+        <span id="pillAdmin" class="pill">Admin: prüfe …</span>
+        <span id="pillDevices" class="pill">Geräte: …</span>
+        <span id="pillAppCheck" class="pill">App Check: …</span>
+      </div>
+      <div class="who"><span id="whoami" class="muted"></span><button id="logout" class="btn ghost">Abmelden</button></div>
+    </header>
+
+    <section class="panel">
+      <h2>Meldung erstellen</h2>
+      <label>Titel <span class="muted" id="titleCount"></span>
+        <input id="title" maxlength="60" placeholder="Leer lassen für Standardtitel"></label>
+      <label>Nachricht <span class="muted" id="bodyCount"></span>
+        <textarea id="body" rows="4" maxlength="500" placeholder="Leer lassen für Standardtext (nicht bei ernster Warnung)"></textarea></label>
+      <div class="actions">
+        <button class="btn probe" data-type="PROBE">PROBEWARNUNG AKTIVIEREN</button>
+        <button class="btn warn" data-type="WARNING">ERNSTE WARNUNG AUSLÖSEN</button>
+        <button class="btn clear" data-type="ALL_CLEAR">ENTWARNUNG SENDEN</button>
+      </div>
+      <p class="muted small">Vor dem Versand folgen Vorschau und Bestätigung. Dies ist ein privates Warnsystem und keine offizielle behördliche Warnung.</p>
+      <div id="result" class="result" hidden role="status"></div>
+    </section>
+
+    <section class="panel">
+      <h2>Warnverlauf</h2>
+      <div class="scroll"><table><thead><tr><th>Zeit</th><th>Art</th><th>Titel</th><th>Admin</th><th>Status</th></tr></thead><tbody id="history"></tbody></table></div>
+    </section>
+
+    <section class="panel">
+      <h2>Registrierte Geräte</h2>
+      <p class="muted small">FCM meldet bei Topic-Versand keine Zustellung pro Gerät. „Zuletzt gesehen“ ist der Zeitpunkt der letzten Registrierung der App, nicht einer Zustellung.</p>
+      <div class="scroll"><table><thead><tr><th>Gerät (UID)</th><th>App</th><th>Abo-Status</th><th>Registriert</th><th>Zuletzt gesehen</th></tr></thead><tbody id="devices"></tbody></table></div>
+    </section>
+
+    <section class="panel">
+      <h2>Warntöne</h2>
+      <p class="muted small">WAV, MP3 oder OGG, höchstens 2 MB. Die App spielt den fest eingebauten Ton <code>alarm_tone.wav</code>; hochgeladene Töne dienen der Ablage und für künftige App-Versionen.</p>
+      <div class="row"><input id="toneFile" type="file" accept=".wav,.mp3,.ogg,audio/wav,audio/mpeg,audio/ogg"><button id="toneUpload" class="btn">Hochladen</button></div>
+      <p id="toneMsg" class="muted small" role="status"></p>
+      <ul id="toneList" class="plain"></ul>
+    </section>
+  </main>
+
+  <div id="modal" class="overlay" hidden>
+    <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="mTitle">
+      <h2 id="mTitle"></h2>
+      <div id="mPreview" class="preview"></div>
+      <div id="mStep2" hidden>
+        <p id="mStep2Text"></p>
+        <label id="mPhraseWrap" hidden>Zur Bestätigung <strong>WARNUNG SENDEN</strong> eingeben
+          <input id="mPhrase" autocomplete="off" spellcheck="false"></label>
+      </div>
+      <div class="actions">
+        <button id="mCancel" class="btn ghost">Abbrechen</button>
+        <button id="mNext" class="btn primary"></button>
+      </div>
+    </div>
+  </div>
+  <script type="module" src="app.js"></script>
+</body>
+</html>

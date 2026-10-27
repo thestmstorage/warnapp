@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="bg">#12151A</color>
+    <color name="surface">#1A1F27</color>
+    <color name="line">#2B323D</color>
+    <color name="text">#E8EBF0</color>
+    <color name="muted">#9AA4B2</color>
+    <color name="red">#E5484D</color>
+    <color name="green">#2FB36D</color>
+    <color name="blue">#5B8DEF</color>
+    <color name="ic_bg">#12151A</color>
+</resources>

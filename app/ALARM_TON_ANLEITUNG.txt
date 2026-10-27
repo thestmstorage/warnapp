@@ -1,0 +1,7 @@
+Ersetze alarm_tone.wav in diesem Ordner durch deine eigene WAV-Datei
+(Dateiname exakt: alarm_tone.wav, nur Kleinbuchstaben/Ziffern/Unterstrich).
+Die mitgelieferte Datei ist ein generierter Platzhalter (Zweiton-Sirene, 4 s).
+Empfohlen: 16-Bit PCM, 3-10 Sekunden, unter 1 MB.
+Android-Hinweis: Der Ton eines Benachrichtigungskanals wird beim ersten Anlegen fest gespeichert.
+Nach einem Tonwechsel entweder die App deinstallieren/neu installieren oder die Kanal-IDs
+(warn_alarm_v1, warn_probe_v1) in NotificationHelper.kt UND functions/core.js auf *_v2 erhoehen.

@@ -1,0 +1,17 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    function isAdmin() {
+      return request.auth != null && request.auth.token.admin == true;
+    }
+    match /tones/{fileName} {
+      allow read, delete: if isAdmin();
+      allow create: if isAdmin()
+        && request.resource.size < 2 * 1024 * 1024
+        && request.resource.contentType in ['audio/wav', 'audio/x-wav', 'audio/mpeg', 'audio/ogg']
+        && fileName.matches('.*[.](wav|mp3|ogg)');
+      allow update: if false;
+    }
+    match /{allPaths=**} { allow read, write: if false; }
+  }
+}

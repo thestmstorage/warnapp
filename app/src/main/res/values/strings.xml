@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">WarnApp</string>
+    <string name="ok">OK</string>
+    <string name="received_at">Empfangen: %1$s</string>
+    <string name="ch_warning">Warnung</string>
+    <string name="ch_warning_desc">Ernste Warnungen mit Alarmton</string>
+    <string name="ch_probe">Probewarnung</string>
+    <string name="ch_probe_desc">Testmeldungen mit Alarmton</string>
+    <string name="ch_allclear">Entwarnung</string>
+    <string name="ch_allclear_desc">Entwarnungen ohne Sirene</string>
+    <string name="section_status">Status</string>
+    <string name="section_register">Warnungen empfangen</string>
+    <string name="section_history">Letzte Meldungen</string>
+    <string name="net_ok">Internet: verbunden</string>
+    <string name="net_missing">Internet: keine Verbindung. Warnungen kommen erst an, wenn das Gerät wieder online ist.</string>
+    <string name="notif_ok">Benachrichtigungen: aktiv</string>
+    <string name="notif_no_permission">Benachrichtigungen: Berechtigung fehlt. Ohne sie werden Warnungen nicht angezeigt.</string>
+    <string name="notif_disabled">Benachrichtigungen: in den Systemeinstellungen ausgeschaltet. Warnungen werden nicht angezeigt.</string>
+    <string name="notif_channel_blocked">Der Kanal „Warnung“ ist ausgeschaltet. Bitte in den Einstellungen aktivieren.</string>
+    <string name="allow_notifications">Benachrichtigungen erlauben</string>
+    <string name="open_settings">Einstellungen öffnen</string>
+    <string name="reg_none">Nicht registriert. Tippe auf „Registrieren“, um Warnungen zu empfangen.</string>
+    <string name="reg_running">Registrierung läuft …</string>
+    <string name="unreg_done">Abgemeldet. Du erhältst keine Warnungen mehr.</string>
+    <string name="reg_code_hint">Registrierungscode (falls vorhanden)</string>
+    <string name="register">Registrieren</string>
+    <string name="unregister">Abmelden</string>
+    <string name="battery_hint">Zuverlässigkeit: App-Einstellungen öffnen</string>
+    <string name="history_empty">Noch keine Meldungen empfangen.</string>
+    <string name="disclaimer">Dies ist ein privates Warnsystem und keine offizielle behördliche Warnung. Die Zustellung hängt von Internet, Energiespareinstellungen und Benachrichtigungsrechten ab.</string>
+</resources>
