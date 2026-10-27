@@ -27,6 +27,7 @@ jobs:
           PROJECT_DIR=$(dirname $(find . -name "settings.gradle.kts" | head -n 1))
           cd "$PROJECT_DIR"
 
+          # 1. Fehlendes gradlew herunterladen
           if [ ! -f "gradlew" ]; then
             curl -sSL "https://raw.githubusercontent.com/gradle/gradle/v8.9.0/gradlew" -o gradlew
             chmod +x gradlew
@@ -34,11 +35,12 @@ jobs:
             curl -sSL "https://raw.githubusercontent.com/gradle/gradle/v8.9.0/gradle/wrapper/gradle-wrapper.jar" -o gradle/wrapper/gradle-wrapper.jar
           fi
 
+          # 2. google-services.json erstellen
           mkdir -p app
           echo '{"project_info":{"project_number":"935189919193","project_id":"genz-kommt","storage_bucket":"genz-kommt.firebasestorage.app"},"client":[{"client_info":{"mobilesdk_app_id":"1:935189919193:android:de_warnapp_client","android_client_info":{"package_name":"de.warnapp.client"}},"oauth_client":[],"api_key":[{"current_key":"AIzaSyCYlAFUiOJnBQwYEvDdY15u8kF0TigJXac"}],"services":{"appinvite_service":{"other_platform_oauth_client":[]}}}],"configuration_version":"1"}' > app/google-services.json
 
-          # Schaltet das direkte Firebase-Abo scharf:
-          sed -i 's/FirebaseMessaging.getInstance().token.await()/FirebaseMessaging.getInstance().token.await()\n        FirebaseMessaging.getInstance().subscribeToTopic("warnapp_prod").await()\n        Prefs.setRegStatus(ctx, "Registriert: warnapp_prod")/g' app/src/main/java/de/warnapp/client/Backend.kt || true
+          # 3. Sofort-Registrierung patchen (Direktes FCM Topic Abo in 0,5s mit Live UI-Update)
+          find . -name "MainActivity.kt" -exec sed -i 's/Backend.enqueueRegistration(this)/com.google.firebase.messaging.FirebaseMessaging.getInstance().subscribeToTopic("warnapp_prod").addOnCompleteListener { task -> Prefs.setRegStatus(this, if (task.isSuccessful) "Registriert (warnapp_prod)" else "Fehler"); refreshStatus() }/g' {} +
 
       - name: Build APK with Gradle
         run: |
