@@ -21,14 +21,25 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3
 
-      - name: Make Gradlew Executable
-        run: chmod +x gradlew || true
+      - name: Auto-generate Gradle Wrapper if missing
+        run: |
+          PROJECT_DIR=$(dirname $(find . -maxdepth 3 -name "settings.gradle.kts" | head -n 1))
+          echo "Gefundener Projekt-Ordner: $PROJECT_DIR"
+          cd "$PROJECT_DIR"
+          if [ ! -f "gradlew" ]; then
+            echo "Erzeuge fehlenden Gradle Wrapper..."
+            gradle wrapper --gradle-version 8.9
+          fi
+          chmod +x gradlew
 
       - name: Build APK with Gradle
-        run: ./gradlew assembleDebug --stacktrace
+        run: |
+          PROJECT_DIR=$(dirname $(find . -maxdepth 3 -name "settings.gradle.kts" | head -n 1))
+          cd "$PROJECT_DIR"
+          ./gradlew assembleDebug --stacktrace
 
       - name: Upload Debug APK Artifact
         uses: actions/upload-artifact@v4
         with:
           name: WarnApp-debug-apk
-          path: app/build/outputs/apk/debug/app-debug.apk
+          path: "**/build/outputs/apk/debug/*.apk"
